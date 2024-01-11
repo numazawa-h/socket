@@ -33,7 +33,7 @@ namespace SimpleSocket
         {
 
             // 受信ソケットセットアップ
-            accept_socket = new ServerSocket(4, 0, 4);
+            accept_socket = new ServerSocket(48, 22, 2);
             accept_socket.OnExceptionEvent += OnExceptionHandler;
             accept_socket.OnFailListenEvent += OnFailListenHandler;
             accept_socket.OnAcceptEvent += OnAcceptEventHandler;
@@ -43,7 +43,7 @@ namespace SimpleSocket
 
 
             // 送信ソケットセットアップ
-            connect_socket = new ClientSocket(4, 0, 4); ;
+            connect_socket = new ClientSocket(48, 22, 2);
             connect_socket.OnExceptionEvent += OnExceptionHandler;
             connect_socket.OnSendData += OnSendDatahandler;
             connect_socket.OnRecvData += OnRecvDatahandler;
