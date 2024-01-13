@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
@@ -33,7 +34,7 @@ namespace SimpleSocket
         {
 
             // 受信ソケットセットアップ
-            accept_socket = new ServerSocket(48, 22, 2);
+            accept_socket = new ServerSocket(48, 30, 4);
             accept_socket.OnExceptionEvent += OnExceptionHandler;
             accept_socket.OnFailListenEvent += OnFailListenHandler;
             accept_socket.OnAcceptEvent += OnAcceptEventHandler;
@@ -43,7 +44,7 @@ namespace SimpleSocket
 
 
             // 送信ソケットセットアップ
-            connect_socket = new ClientSocket(48, 22, 2);
+            connect_socket = new ClientSocket(48, 30, 4);
             connect_socket.OnExceptionEvent += OnExceptionHandler;
             connect_socket.OnSendData += OnSendDatahandler;
             connect_socket.OnRecvData += OnRecvDatahandler;
@@ -52,9 +53,24 @@ namespace SimpleSocket
             connect_socket.OnDisConnectEvent += OnDisConnectEventHandler;
 
 
+            this.txt_Remort_IpAddress.Text = GetHostIpAddress();
+            this.txt_Self_IpAddress.Text = GetHostIpAddress();
+        }
 
-            this.txt_Remort_IpAddress.Text = "10.51.46.82";
-            this.txt_Self_IpAddress.Text = "10.51.46.82";
+        string GetHostIpAddress()
+        {
+            string ipaddress = "127.0.0.0";
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach(IPAddress addr in ipHostInfo.AddressList)
+            {
+                if (addr.AddressFamily is System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    ipaddress = addr.ToString();
+                }
+            }
+
+            return ipaddress;
         }
 
         private void button1_Click(object sender, EventArgs e)
