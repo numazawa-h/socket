@@ -75,7 +75,11 @@ namespace SimpleSocket
 
         private void button1_Click(object sender, EventArgs e)
         {
-            byte[] hed = new byte[] { 0, 0, 0, 8 };
+            byte[] hed = new byte[] { 
+                0, 0, 0, 0, 0, 0, 0, 0,    0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,    0, 0, 0, 0, 0, 0, 0, 0,
+                0, 8, 0, 0, 0, 0, 0, 0,    0, 0, 0, 0, 0, 0, 0, 0,
+            };
             byte[] dat = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
             send_socket?.Send(hed, dat);
         }
