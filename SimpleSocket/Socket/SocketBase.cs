@@ -67,6 +67,8 @@ namespace SocketTool.Properties
 
         protected void OnAccept(Socket soc)
         {
+            Log.Info("OnAccept");
+
             SocketSendRecv socket = new SocketSendRecv(soc, this);
             socket.StartRecv();
             AddSocketList(socket);
@@ -77,6 +79,8 @@ namespace SocketTool.Properties
 
         protected void OnConnect(Socket soc)
         {
+            Log.Info("OnConnect");
+
             SocketSendRecv socket = new SocketSendRecv(soc, this);
             socket.StartRecv();
             AddSocketList(socket);
@@ -86,6 +90,8 @@ namespace SocketTool.Properties
 
         public void OnDisConnect(SocketSendRecv socket)
         {
+            Log.Info("OnDisConnect");
+
             var args = new ConnectEventArgs(socket);
             OnDisConnectEvent?.Invoke(this, args);
         }
@@ -93,17 +99,23 @@ namespace SocketTool.Properties
         public void OnException(Exception e)
         {
             var args = new ThreadExceptionEventArgs(e);
+            Log.Warn("OnException", e);
+
             OnExceptionEvent?.Invoke(this, args);
         }
 
 
         public void OnSend(SocketSendRecv socket, byte[] head, byte[]data)
         {
+            Log.Info("OnSend");
+
             var args = new CommDataEventArgs(socket, head, data);
             OnSendData?.Invoke(this, args);
         }
         public void OnRecv(SocketSendRecv socket, byte[] head, byte[] data)
         {
+            Log.Info("OnRecv");
+
             var args = new CommDataEventArgs(socket, head, data);
             OnRecvData?.Invoke(this, args);
         }

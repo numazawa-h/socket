@@ -38,9 +38,16 @@ namespace SocketTool
         {
             Log._logger.Debug(message);
         }
-        static public void Warn(string message)
+        static public void Warn(string message, Exception ex = null)
         {
-            Log._logger.Warn(message);
+            if (ex == null)
+            {
+                Log._logger.Warn(message);
+            }
+            else
+            {
+                Log._logger.Warn(message, ex);
+            }
         }
         static public void Error(string message, Exception ex = null)
         {
