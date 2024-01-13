@@ -106,9 +106,9 @@ namespace SocketTool
                 }
             }
             catch (Exception ex) 
-            { 
-                _this._soc_base.OnDisConnect(_this);
-                _this._soc_base.OnException(ex);
+            {
+                _this.OnDisConnect();
+                _this.OnException(ex);
             }
         }
 
@@ -122,12 +122,15 @@ namespace SocketTool
             }
 
             int rcnt = _soc.Receive(_head, _head_recv_cnt, _head_size - _head_recv_cnt, SocketFlags.None);
+            if (rcnt < 0)
+            {
+                throw new Exception($"ソケットエラー({rcnt})");
+            }
             if (rcnt == 0)
             {
-                // 切断処理
-                _soc_base.OnDisConnect(this);
-                return;
+                throw new Exception("ソケット切断");
             }
+
             _head_recv_cnt += rcnt;
         }
         private void receiveData()
@@ -155,7 +158,6 @@ namespace SocketTool
             if (rcnt == 0)
             {
                 // 切断処理
-                _soc_base.OnDisConnect(this);
                 return;
             }
             _data_recv_cnt += rcnt;
@@ -188,7 +190,17 @@ namespace SocketTool
             return BitConverter.ToInt32(data, 0);
         }
 
-         private void onRecv()
+        private void OnException(Exception ex)
+        {
+            _soc_base.OnException(ex);
+        }
+
+        private void OnDisConnect()
+        {
+            _soc_base.OnDisConnect(this);
+        }
+
+        private void onRecv()
         {
             _soc_base.OnRecv(this, _head, _data);
         }

@@ -218,6 +218,7 @@ namespace SimpleSocket
                 return;
             }
 
+            args.Socket.Stop();
 
             if (args.Socket.isServerSocket())
             {
